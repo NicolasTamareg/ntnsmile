@@ -11,6 +11,7 @@ import { RouterLink, RouterView } from "vue-router";
       <RouterLink to="/login">Connection</RouterLink>
       <RouterLink to="/edit">Parametre</RouterLink>
       <button></button>
+      <button></button>
     </nav>
     
 
