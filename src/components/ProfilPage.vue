@@ -26,12 +26,14 @@ export default {
 
 <template>
     <div class="main-profil">
+        <div class="fond-ecran">
+            <img class="main-image" src="https://www.coursinfo.fr/wp-content/uploads/2016/04/facebook-logo.jpg" alt="">
+        </div>
         <div class="photo-pseudo">
-            <img src="https://picsum.photos/seed/picsum/200/200" alt="">
+            <img class="img-profil" src="https://picsum.photos/seed/picsum/200/200" alt="">
             <h2>Pierre Richard</h2>
         </div>
         <div class="mini-titre">
-            <h4>Bienvenue sur votre page de profil</h4>
         </div>
         <ul>
         </ul>
@@ -44,24 +46,24 @@ export default {
     justify-content: center;
     height: 100%;
     width: 80%;
-    border: 2px solid black;
 }
 
 .photo-pseudo{
     display: flex;
     align-items: flex-end;
     margin-left: 10%;
-    border: 2px solid blue;
+    transform: translateY(-60%);
 }
 
 ul{
     text-align: center;
 }
-img{
+.img-profil{
     display: flex;
     flex-direction: column;
     border-radius: 50%;
 }
+
 
 .mini-titre{
     text-align: center;
