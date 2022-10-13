@@ -130,6 +130,7 @@ button{
   cursor: pointer;
 }
 #mainContainer{
+    width: 1080px;
     display: flex;
     flex-direction: column;
     align-items: center;
