@@ -1,5 +1,5 @@
 <template>
-    <div id="mainContainer">
+    <div id="connectContainer">
         
         <h1>Rejoignez le réseau NTN Smile</h1>
        
@@ -34,13 +34,17 @@
        
         <button>Créer un compte</button>
        
-        <form action="">
-           <input type="text">
-           <input type="email">
-           <input type="password">
-           <input type="password" >
-           <input type="submit" value="Valider">
-        </form>
+        <div id="modalContainer">
+            <form action="">
+               <input type="text">
+               <input type="email">
+               <input type="password">
+               <input type="password" >
+               <input type="submit" value="Valider">
+            </form>
+
+        </div>
+
     </div>
 
 </template>
@@ -129,12 +133,18 @@ button{
   border-radius: 4px;
   cursor: pointer;
 }
-#mainContainer{
+#connectContainer{
     width: 1080px;
     display: flex;
     flex-direction: column;
     align-items: center;
     
+}
+#modalContainer{
+    width: 1080px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 </style>
