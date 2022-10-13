@@ -36,6 +36,7 @@ export default {
         <div class="mini-titre">
         </div>
         <ul>
+            {{newTask}}
         </ul>
     </div>
 </template>
