@@ -10,6 +10,7 @@ import { RouterLink, RouterView } from "vue-router";
       <RouterLink to="/profil">Profile</RouterLink>
       <RouterLink to="/login">Connection</RouterLink>
       <RouterLink to="/edit">Parametre</RouterLink>
+      <button></button>
     </nav>
     
 
