@@ -16,7 +16,12 @@ import { RouterLink, RouterView } from "vue-router";
       </header>
       <RouterView />
   </section>
-  
+  <section>
+    <footer>
+      
+    </footer>
+
+  </section>
 </template>
 
 <style scoped>
@@ -31,16 +36,20 @@ header{
   display: flex;
   justify-content: center;
   background-color: red;
+  
   width: 300px;
   height: 100%;
 }
 nav{
   display: flex;
-  width: 150px;
-  height: 300px;
+  width: 300px;
+  height:  800px;
+  position: fixed;
+  padding: 0 20px 0 20px;
   flex-direction: column;
   align-items: center;
+  background-color: aqua;
   justify-content: space-evenly;;
-
+ 
   }
 </style>
