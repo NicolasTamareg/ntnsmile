@@ -27,13 +27,13 @@ export default {
   mounted: async function makeApromise() {
 
     // marseille
-    const response = await fetch('https://api.openweathermap.org/data/2.5/forecast?lat=43.296482&lon=5.36978&appid=ec0cf50e8b73d1b6d7c7413f7193d9c5');
+    const response = await fetch('https://api.openweathermap.org/data/2.5/forecast?lat=43.296482&lon=5.36978&appid=ec0cf50e8b73d1b6d7c7413f7193d9c5&units=metric&lang=fr');
     const tableauVille = await response.json()
     this.info.icon = tableauVille.list[0].weather[0].icon
-    this.info.vitesseVent = tableauVille.list[0].wind.speed % 100 * 36
+    this.info.vitesseVent = tableauVille.list[0].wind.speed 
     this.info.description = tableauVille.list[0].weather[0].description
-    this.info.tempMax = Math.floor(tableauVille.list[0].main.temp_max - 273)
-    this.info.tempMin = Math.floor(tableauVille.list[0].main.temp_min - 273)
+    this.info.tempMax = Math.floor(tableauVille.list[0].main.temp_max )
+    this.info.tempMin = Math.floor(tableauVille.list[0].main.temp_min )
     this.info.nameville = tableauVille.city.name
 
     
@@ -68,17 +68,7 @@ export default {
 
 <style scoped>
 header,
-footer {
-  height: 5rem;
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 1rem;
-  background-color: black;
-  color: white;
-}
+
 main {
   width: 100%;
   flex-grow: 1;

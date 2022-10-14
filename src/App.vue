@@ -43,7 +43,7 @@ header{
 nav{
   display: flex;
   width: 300px;
-  height: 500px;
+  height:  800px;
   position: fixed;
   padding: 0 20px 0 20px;
   flex-direction: column;

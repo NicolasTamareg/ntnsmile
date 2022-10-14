@@ -13,8 +13,8 @@ export default {
 
     <div class="cardAffiche" >
         <p>Ville:{{ville}}</p>
-        <p> temperature:{{temperaturemax}} </p> 
-        <p>temperaturemin:{{temperatureminimum}} </p>
+        <p> temperature:{{temperaturemax}}° </p> 
+        <p>temperaturemin:{{temperatureminimum}}° </p>
         <p>Vitesse du vent: {{vent}}km</p>
         <p>la description:{{description}}</p>
         <img v-if="icon" :src="`http://openweathermap.org/img/wn/${icon}@2x.png`" alt="">
@@ -22,7 +22,24 @@ export default {
 </template>
 
 <style scoped lang="scss">
+.cardAffiche{
+    position: fixed;
+    border: 1px solid;
+    width: 260px;
+    margin-left: 50px;
+
+    p{
+        border-bottom: 1px solid;
+        text-align: center;
+    }
+    img{
+        text-align:center;
+         margin:auto;
+        display:flex;
+    }
+}
 .card {
+    
   border: 1px solid black;
   padding: 1rem;
   display: flex;
