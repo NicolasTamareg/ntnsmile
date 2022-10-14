@@ -10,7 +10,7 @@
                 <input
                  type="email"
                  id="emaiInput" 
-                 v-model="email" 
+                 v-model="user.email" 
                  placeholder="Entrer votre email"
                  required
                  >
@@ -21,7 +21,7 @@
                 <input 
                 type="password" 
                 id="passwordInput" 
-                v-model="password" 
+                v-model="user.password" 
                 placeholder="Entrer votre mot de passe"
                 required
                 >
@@ -31,17 +31,17 @@
            <input type="submit" value="Se connecter">
         </form>
 
-        <p v-if="result === true" class="success">
+        <p v-if="user.result === true" class="success">
         Connexion réussie
         <br />
         Token: {{ token }}
         </p>
-        <p v-else-if="result === false" class="error">Connexion échouée</p>
+        <p v-else-if="user.result === false" class="error">Connexion échouée</p>
     
        
         <button  @click="handleClick">Créer un compte</button>
        
-        <div id="modalContainer" v-if="shouldDisplayForm">
+        <div id="modalContainer" v-if="shouldDisplayForm" @submit.prevent="register">
             <form action="">
 
                 <div class="inputContent">
@@ -49,7 +49,7 @@
                     <input 
                     type="text"
                     id="pseudoInput"
-                    v-model="pseudoForm"
+                    v-model="user.pseudo"
                     :class="PseudoIsValid"
                     placeholder="Entrer votre pseudo"
                     >
@@ -61,8 +61,8 @@
                     <input
                     type="email"
                     id="emaiInput" 
-                    v-model="emailForm"
-                    :class="EmailIsValid" 
+                    v-model="user.email"
+                    
                     placeholder="Entrer votre email"
                     >
                 </div>
@@ -72,7 +72,7 @@
                     <input 
                     type="password" 
                     id="passwordInput" 
-                    v-model="passwordForm" 
+                    v-model="user.password" 
                     :class="MdpIsValid"
                     placeholder="Entrer votre mot de passe"
                     >
@@ -80,16 +80,16 @@
                 <p class="info">Max 4 caractères</p>
 
                 <div class="inputContent">
-                    <label for="passwordInput">Confirmer le mot de passe :</label>
+                    <label for="passwordVerify">Confirmer le mot de passe :</label>
                     <input 
                     type="password" 
-                    id="passwordInput" 
-                    v-model="passwordVerirfyForm" 
+                    id="passwordVerify" 
+                    v-model="user.passwordVerirfy" 
                     :class="MdpVerifyValid"
                     placeholder="Confirmer votre mot de passe"
                     >
                 </div>
-               <input type="submit" value="Valider">
+               <input type="submit" value="Valider" @click="addUser">
             </form>
 
         </div>
@@ -102,20 +102,46 @@
 export default {
   data() {
     return {
-      email: "test@test.com",
-      password: "test",
-      result: null,
-      token: "",
-      shouldDisplayForm: false,
-      passwordForm:"",
-      passwordVerirfyForm:"",
-      pseudoForm:"",
-      emailForm:"",
-      reg: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/
+        userList: [],
+        
+        user:{
+            pseudo:"Thanatos",
+            email: "test@test.com",
+            password: "test",
+            passwordVerirfy:"test",
+            token: "",
+            result: null,
+            
+        },
+
+        shouldDisplayForm: false,
+        newUser:"",
+        reg: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/,
+        
     };
+    
   },
+  
 
   methods: {
+    addUser: function(){
+         // Si l'input est vide, on s'en va
+      if (this.newUser === "") {
+        return;
+      }
+      // Si la nouvelle tâche existe déjà dans taskList, on s'en va
+      // On crée un nouvel objet pour "transférer" this.newTask (string) vers newTask (dictionnaire)
+      const newUser = {
+        info: this.newUser
+      };
+      // On ajoute le nouvel objet dans la tasklist
+      this.userList.push(newUser);
+      console.log('userList :',userList)
+      // On reset this.newTask pour vider l'input
+      this.newUser = "";
+      
+    },
+    
      handleClick: function () {
         this.shouldDisplayForm = true;
       },
@@ -127,8 +153,8 @@ export default {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          email: this.email,
-          password: this.password,
+          email: this.user.email,
+          password: this.user.password,
         }),
       };
 
@@ -139,7 +165,7 @@ export default {
 
       const data = await response.json();
 
-      this.result = data.success;
+      this.user.result = data.success;
       if (data.success === true) {
         this.token = data.token;
         // rediriger vers la page d'accueil ?
@@ -150,37 +176,66 @@ export default {
         // voici comment vider le stockage du disque dur
        }
      },
+     async register() {
+      const options = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          pseudo: this.user.pseudo,  
+          email: this.user.email,
+          password: this.user.password,
+
+        }),
+      };
+
+      const response = await fetch(
+        "https://social-network-api.osc-fr1.scalingo.io/demo/login",
+        options
+      );
+
+      const data = await response.json();
+
+      this.user.result = data.success;
+      if (data.success === true) {
+        this.token = data.token;
+
+        localStorage.setItem("token", data.token);
+        const token = localStorage.getItem("token");
+       }
+     },
     },
 
     computed: {
       MdpIsValid: function () {
-        if (!this.passwordForm || !this.passwordForm.length === 0) return '';
-        const isLengthOk = this.passwordForm.length === 4;
+        if (!this.user.password || !this.user.password.length === 0) return '';
+        const isLengthOk = this.user.password.length === 4;
         if (!isLengthOk) return 'border-red';
   
         return 'border-green';
       },
       MdpVerifyValid: function() {
-        if (!this.passwordVerirfyForm || !this.passwordVerirfyForm.length === 0) return '';
-        if(this.passwordVerirfyForm !== this.passwordForm) return 'border-red';
+        if (!this.user.passwordVerirfy || !this.user.passwordVerirfy.length === 0) return '';
+        if(this.user.passwordVerirfy !== this.user.password) return 'border-red';
         
         return 'border-green';
       },
       PseudoIsValid: function () {
-        if (!this.pseudoForm || !this.pseudoForm.length === 0) return '';
-        const isLengthOk = this.pseudoForm.length < 8;
+        if (!this.user.pseudo || !this.user.pseudo.length === 0) return '';
+        const isLengthOk = this.user.pseudo.length <= 8;
         if (!isLengthOk) return 'border-red';
   
         return 'border-green';
       },
-      EmailIsValid: function () {
-        (this.reg.test(this.email)) ? 'border-green' : 'border-red';
-      },
+    //   EmailIsValid: function () {
+    //     (this.reg.test(this.user.email)) ? 'border-green' : 'border-red';
+    //   },
       
     },
 
-  
 };
+
 </script>
 
 <style scoped lang="scss">
