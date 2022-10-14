@@ -14,16 +14,16 @@
       /* Status could be: 'to-do' / 'in-progress' / 'finished' */
       tasks: [
         {
-          name: "Steal bananas from the supermarket.",
+          name: "Voici mon premier poste ",
           status: "to-do",
         },
         {
-          name: "Eat 1 kg chocolate in 1 hour.",
+          name: "Voici mon deuxième poste.",
           status: "in-progress",
         },
         {
-          name: "Create YouTube video.",
-          status: "finished",
+          name: "Voici mon troisième poste.",
+        //   status: "finished",
         },
       ],
     };
@@ -40,11 +40,11 @@
     /**
      * Change status of task by index
      */
-    changeStatus(index) {
-      let newIndex = this.statuses.indexOf(this.tasks[index].status);
-      if (++newIndex > 2) newIndex = 0;
-      this.tasks[index].status = this.statuses[newIndex];
-    },
+    // changeStatus(index) {
+    //   let newIndex = this.statuses.indexOf(this.tasks[index].status);
+    //   if (++newIndex > 2) newIndex = 0;
+    //   this.tasks[index].status = this.statuses[newIndex];
+    // },
 
     /**
      * Deletes task by index
@@ -97,24 +97,24 @@
         </div>
         <div class="mini-titre">
         </div>
-        <table class="table table-bordered mt-5">
+        <ul class="table table-bordered mt-5">
       <thead>
-        <tr>
-          <th scope="col">Task</th>
+        <li>
+          <th scope="col">Mes posts</th>
           <!-- <th scope="col" style="width: 120px">Status</th>
           <th scope="col" class="text-center">#</th>
           <th scope="col" class="text-center">#</th> -->
-        </tr>
+        </li>
       </thead>
       <tbody>
-        <tr v-for="(task, index) in tasks" :key="index">
-          <td>
+        <li v-for="(task, index) in tasks" :key="index">
+          <div class="firstLi">
             <span :class="{ 'line-through': task.status === 'finished' }">
               {{ task.name }}
             </span>
-          </td>
+          </div>
           <td>
-            <span
+            <!-- <span
               class="pointer noselect"
               @click="changeStatus(index)"
               :class="{
@@ -124,21 +124,21 @@
               }"
             >
               {{ capitalizeFirstChar(task.status) }}
-            </span>
+            </span> -->
           </td>
           <td class="text-center">
             <div @click="deleteTask(index)">
               <span class="fa fa-trash pointer"></span>
             </div>
           </td>
-          <td class="text-center">
+          <!-- <td class="text-center">
             <div @click="editTask(index)">
               <p class="fa fa-pen pointer"></p>
             </div>
-          </td>
-        </tr>
+          </td> -->
+        </li>
       </tbody>
-    </table>
+    </ul>
     </div>
 </template>
 
@@ -148,6 +148,16 @@
     justify-content: center;
     height: 100%;
     width: 80%;
+}
+
+table{
+    margin: 0 160px;
+}
+.fa{
+    font-size: 40px;
+}
+.text-center{
+    padding: 20px;
 }
 
 .photo-pseudo{
