@@ -1,25 +1,32 @@
 <template>
     <div id="connectContainer">
-        
+        <img src="src/assets/login-img.png" alt="">
         <h1>Rejoignez le réseau NTN Smile</h1>
        
-        <form action="" @submit.prevent="">
-           <label for="emailInput">Email :</label>
+        <form action="" @submit.prevent="login">
 
-           <input
-            type="email"
-            id="emaiInput" 
-            v-model="email" 
-            placeholder="Entrer votre email"
-            >
+            <div class="inputContent">
+                <label for="emailInput">Email :</label>
+                <input
+                 type="email"
+                 id="emaiInput" 
+                 v-model="email" 
+                 placeholder="Entrer votre email"
+                 required
+                 >
+            </div>
 
-           <label for="passwordInput">Mot de passe :</label>
-           <input 
-           type="password" 
-           id="passwordInput" 
-           v-model="password" 
-           placeholder="Entrer votre mot de passe"
-           >
+            <div class="inputContent">
+                <label for="passwordInput">Mot de passe :</label>
+                <input 
+                type="password" 
+                id="passwordInput" 
+                v-model="password" 
+                placeholder="Entrer votre mot de passe"
+                required
+                >
+            </div>
+
 
            <input type="submit" value="Se connecter">
         </form>
@@ -32,14 +39,56 @@
         <p v-else-if="result === false" class="error">Connexion échouée</p>
     
        
-        <button>Créer un compte</button>
+        <button  @click="handleClick">Créer un compte</button>
        
-        <div id="modalContainer">
+        <div id="modalContainer" v-if="shouldDisplayForm">
             <form action="">
-               <input type="text">
-               <input type="email">
-               <input type="password">
-               <input type="password" >
+
+                <div class="inputContent">
+                    <label for="pseudoInput">Pseudo :</label>
+                    <input 
+                    type="text"
+                    id="pseudoInput"
+                    v-model="pseudoForm"
+                    :class="PseudoIsValid"
+                    placeholder="Entrer votre pseudo"
+                    >
+                </div>
+                <p class="info">Max 8 caractères</p>
+
+                <div class="inputContent">
+                    <label for="emailInput">Email :</label>
+                    <input
+                    type="email"
+                    id="emaiInput" 
+                    v-model="emailForm"
+                    :class="EmailIsValid" 
+                    placeholder="Entrer votre email"
+                    >
+                </div>
+
+                <div class="inputContent">
+                    <label for="passwordInput">Mot de passe :</label>
+                    <input 
+                    type="password" 
+                    id="passwordInput" 
+                    v-model="passwordForm" 
+                    :class="MdpIsValid"
+                    placeholder="Entrer votre mot de passe"
+                    >
+                </div>
+                <p class="info">Max 4 caractères</p>
+
+                <div class="inputContent">
+                    <label for="passwordInput">Confirmer le mot de passe :</label>
+                    <input 
+                    type="password" 
+                    id="passwordInput" 
+                    v-model="passwordVerirfyForm" 
+                    :class="MdpVerifyValid"
+                    placeholder="Confirmer votre mot de passe"
+                    >
+                </div>
                <input type="submit" value="Valider">
             </form>
 
@@ -53,15 +102,25 @@
 export default {
   data() {
     return {
-      email: "",
-      password: "",
+      email: "test@test.com",
+      password: "test",
       result: null,
       token: "",
+      shouldDisplayForm: false,
+      passwordForm:"",
+      passwordVerirfyForm:"",
+      pseudoForm:"",
+      emailForm:"",
+      reg: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/
     };
   },
 
   methods: {
-    async login() {
+     handleClick: function () {
+        this.shouldDisplayForm = true;
+      },
+
+     async login() {
       const options = {
         method: "POST",
         headers: {
@@ -89,26 +148,60 @@ export default {
         // voici comment lire une valeur stockée dans le disque dur
         const token = localStorage.getItem("token");
         // voici comment vider le stockage du disque dur
-      }
+       }
+     },
     },
-  },
+
+    computed: {
+      MdpIsValid: function () {
+        if (!this.passwordForm || !this.passwordForm.length === 0) return '';
+        const isLengthOk = this.passwordForm.length === 4;
+        if (!isLengthOk) return 'border-red';
+  
+        return 'border-green';
+      },
+      MdpVerifyValid: function() {
+        if (!this.passwordVerirfyForm || !this.passwordVerirfyForm.length === 0) return '';
+        if(this.passwordVerirfyForm !== this.passwordForm) return 'border-red';
+        
+        return 'border-green';
+      },
+      PseudoIsValid: function () {
+        if (!this.pseudoForm || !this.pseudoForm.length === 0) return '';
+        const isLengthOk = this.pseudoForm.length < 8;
+        if (!isLengthOk) return 'border-red';
+  
+        return 'border-green';
+      },
+      EmailIsValid: function () {
+        (this.reg.test(this.email)) ? 'border-green' : 'border-red';
+      },
+      
+    },
+
+  
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+img{
+    height: 250px;
+    width: 60%;
+}
 form {
   display: flex;
   align-items: center;
   flex-direction: column;
   margin: 10px;
-  width: 30%;
+  width: 50%;
 }
-form input, form select {
+form input {
   width: 100%;
   padding: 10px;
   margin: 10px 0;
   border: 1px solid #ccc;
   border-radius: 5px;
+  outline: none;
 }
 form input[type=submit] {
   width: 60%;
@@ -119,32 +212,71 @@ form input[type=submit] {
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  &:hover{
+    background-color: #45a049;
+  }
 }
-form input[type=submit]:hover {
-  background-color: #45a049;
+label{
+    width: 160px;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    margin-right: 20px;
 }
+.inputContent{
+    display: flex;
+    flex-direction: row;
+    width: 80%;
+    justify-content: center;
+}
+
 button{
   width: 50%;
-  background-color: rgb(82, 127, 199);
+  background-color: rgb(101, 157, 247);
   color: white;
   padding: 14px 20px;
   margin: 8px 0;
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  &:hover{
+    background-color: rgb(82, 127, 199);
+  }
+  
 }
-#connectContainer{
-    width: 1080px;
+#connectContainer,#modalContainer{
+    width: 1000px;
     display: flex;
     flex-direction: column;
     align-items: center;
     
 }
-#modalContainer{
-    width: 1080px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.success {
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #4CAF50;
+  color: white;
 }
+
+.error {
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #b42f26;
+  color: white;
+}
+.border-red {
+    border-color: red;
+  }
+  .border-green {
+    border-color: green;
+  }
+  .border-green, .border-red {
+    border-width: 2px;
+  }
+  .info{
+    font-size: small;
+    margin: 0;
+  }
+
 
 </style>
