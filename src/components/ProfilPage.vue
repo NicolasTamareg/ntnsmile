@@ -1,10 +1,203 @@
-<script setup>
+<script>
+  export default {
+  name: "HelloWorld",
+  props: {
+    msg: String,
+  },
+
+  data() {
+    return {
+      task: "",
+      editedTask: null,
+      statuses: ["to-do", "in-progress", "finished"],
+
+      /* Status could be: 'to-do' / 'in-progress' / 'finished' */
+      tasks: [
+        {
+          name: "Voici mon premier poste ",
+          status: "to-do",
+        },
+        {
+          name: "Voici mon deuxième poste.",
+          status: "in-progress",
+        },
+        {
+          name: "Voici mon troisième poste.",
+        //   status: "finished",
+        },
+      ],
+    };
+  },
+
+  methods: {
+    /**
+     * Capitalize first character
+     */
+    capitalizeFirstChar(str) {
+      return str.charAt(0).toUpperCase() + str.slice(1);
+    },
+
+    /**
+     * Change status of task by index
+     */
+    // changeStatus(index) {
+    //   let newIndex = this.statuses.indexOf(this.tasks[index].status);
+    //   if (++newIndex > 2) newIndex = 0;
+    //   this.tasks[index].status = this.statuses[newIndex];
+    // },
+
+    /**
+     * Deletes task by index
+     */
+    deleteTask(index) {
+      this.tasks.splice(index, 1);
+    },
+
+    /**
+     * Edit task
+     */
+    editTask(index) {
+      this.task = this.tasks[index].name;
+      this.editedTask = index;
+    },
+
+    /**
+     * Add / Update task
+     */
+    submitTask() {
+      if (this.task.length === 0) return;
+
+      /* We need to update the task */
+      if (this.editedTask != null) {
+        this.tasks[this.editedTask].name = this.task;
+        this.editedTask = null;
+      } else {
+        /* We need to add new task */
+        this.tasks.push({
+          name: this.task,
+          status: "todo",
+        });
+      }
+
+      this.task = "";
+    },
+  },
+};
 </script>
 
 
 <template>
-
-
-
-    <h1>Profile Page</h1>
+    <div class="main-profil">
+        <div class="fond-ecran">
+            <img class="main-image" src="https://www.coursinfo.fr/wp-content/uploads/2016/04/facebook-logo.jpg" alt="">
+        </div>
+        <div class="photo-pseudo">
+            <img class="img-profil" src="https://picsum.photos/seed/picsum/200/200" alt="">
+            <h2>Pierre Richard</h2>
+        </div>
+        <div class="mini-titre">
+        </div>
+        <ul class="table table-bordered mt-5">
+      <thead>
+        <li>
+          <th scope="col">Mes posts</th>
+          <!-- <th scope="col" style="width: 120px">Status</th>
+          <th scope="col" class="text-center">#</th>
+          <th scope="col" class="text-center">#</th> -->
+        </li>
+      </thead>
+      <tbody>
+        <li v-for="(task, index) in tasks" :key="index">
+          <div class="firstLi">
+            <span :class="{ 'line-through': task.status === 'finished' }">
+              {{ task.name }}
+            </span>
+          </div>
+          <td>
+            <!-- <span
+              class="pointer noselect"
+              @click="changeStatus(index)"
+              :class="{
+                'text-danger': task.status === 'to-do',
+                'text-success': task.status === 'finished',
+                'text-warning': task.status === 'in-progress',
+              }"
+            >
+              {{ capitalizeFirstChar(task.status) }}
+            </span> -->
+          </td>
+          <td class="text-center">
+            <div @click="deleteTask(index)">
+              <span class="fa fa-trash pointer"></span>
+            </div>
+          </td>
+          <!-- <td class="text-center">
+            <div @click="editTask(index)">
+              <p class="fa fa-pen pointer"></p>
+            </div>
+          </td> -->
+        </li>
+      </tbody>
+    </ul>
+    </div>
 </template>
+
+<style>
+.main-profil{
+    margin: auto;
+    justify-content: center;
+    height: 100%;
+    width: 80%;
+}
+
+table{
+    margin: 0 160px;
+}
+.fa{
+    font-size: 40px;
+}
+.text-center{
+    padding: 20px;
+}
+
+.photo-pseudo{
+    display: flex;
+    align-items: flex-end;
+    margin-left: 10%;
+    transform: translateY(-60%);
+}
+
+ul{
+    text-align: center;
+}
+.img-profil{
+    display: flex;
+    flex-direction: column;
+    border-radius: 50%;
+}
+
+
+.mini-titre{
+    text-align: center;
+}
+
+
+
+
+.pointer {
+  cursor: pointer;
+}
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}
+.line-through {
+  text-decoration: line-through;
+}
+
+</style>
