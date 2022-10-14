@@ -1,88 +1,80 @@
 <script>
-  export default {
-  name: "HelloWorld",
-  props: {
-    msg: String,
-  },
-
-  data() {
-    return {
-      task: "",
-      editedTask: null,
-      statuses: ["to-do", "in-progress", "finished"],
-
-      /* Status could be: 'to-do' / 'in-progress' / 'finished' */
-      tasks: [
-        {
-          name: "Voici mon premier poste ",
-          status: "to-do",
-        },
-        {
-          name: "Voici mon deuxième poste.",
-          status: "in-progress",
-        },
-        {
-          name: "Voici mon troisième poste.",
-        //   status: "finished",
-        },
-      ],
-    };
-  },
-
-  methods: {
-    /**
-     * Capitalize first character
-     */
-    capitalizeFirstChar(str) {
-      return str.charAt(0).toUpperCase() + str.slice(1);
-    },
-
-    /**
-     * Change status of task by index
-     */
-    // changeStatus(index) {
-    //   let newIndex = this.statuses.indexOf(this.tasks[index].status);
-    //   if (++newIndex > 2) newIndex = 0;
-    //   this.tasks[index].status = this.statuses[newIndex];
-    // },
-
-    /**
-     * Deletes task by index
-     */
-    deleteTask(index) {
-      this.tasks.splice(index, 1);
-    },
-
-    /**
-     * Edit task
-     */
-    editTask(index) {
-      this.task = this.tasks[index].name;
-      this.editedTask = index;
-    },
-
-    /**
-     * Add / Update task
-     */
-    submitTask() {
-      if (this.task.length === 0) return;
-
-      /* We need to update the task */
-      if (this.editedTask != null) {
-        this.tasks[this.editedTask].name = this.task;
-        this.editedTask = null;
-      } else {
-        /* We need to add new task */
-        this.tasks.push({
-          name: this.task,
-          status: "todo",
+export default {
+    
+    data() {
+        return {
+            newTask: "",
+            taskList: [],
+        };
+},
+methods: {
+      // Récupère la valeur contenue dans l'input et l'assigne à newTask
+      setNewTask: function (event) {
+        this.newTask = event.target.value;
+      },
+      // Reçoit un clic et ajoute newTask à la liste des tâches taskList
+      addTaskToList: function () {
+        // Si l'input est vide, on s'en va
+        if (!this.newTask) return;
+        // Si la nouvelle tâche existe déjà dans taskList, on s'en va
+        if (this.taskList.some((task) => task.text != this.newTask  && task.text === this.newTask )) return;
+        // On crée un nouvel objet pour "transférer" this.newTask (string) vers newTask (dictionnaire)
+        const newTask = {
+          text: this.newTask,
+          createdAt: new Date().getTime(),
+          status: 'todo' // 'doing', 'done'
+        };
+  
+        // On ajoute le nouvel objet dans la tasklist
+        this.taskList = this.taskList.concat(newTask);
+        console.log(this.taskList);
+        // On reset this.newTask pour vider l'input
+        this.newTask = "";
+      },
+      // C'est pour changer le status avec 2 arguments : 
+      // - la tâche dont le statut doit être modifié,
+      // - et le statut qu'on veut lui donner
+      changeStatus: function (taskToModify, status) {
+        // Comme au dessus, on crée un nouvel objet pour conserver le texte et changer le status de la task passée en paramètre
+        const newTask = {
+          text: taskToModify.text,
+          status,
+        };
+  
+        // On transforme la taskList avec .map
+        this.taskList = this.taskList.map((taskItem) => {
+          // Si l'item en cours (taskItem) est le même que la tâche à modifier
+          if (taskItem.text === taskToModify.text) {
+            // alors on retourne notre nouvel objet
+            return newTask;
+          }
+          // sinon on retourne l'original
+          return taskItem;
+        });
+      },
+      removeTask: function (taskToRemove) {
+        const index = this.taskList.findIndex(task => task.text === taskToRemove.text);
+        this.taskList = this.taskList.slice(0, index).concat(this.taskList.slice(index + 1));
+  
+        this.taskList = this.taskList.filter((task) => {
+          return task.text !== taskToRemove.text;
         });
       }
-
-      this.task = "";
     },
-  },
-};
+    // Les computed properties permettent de mettre à disposition des listes filtrées en se basant sur les éléments contenus dans this.taskList
+    computed: {
+      todos: function () {
+        return this.taskList.filter((task) => task.status === 'todo');
+      },
+      doing: function () {
+        return this.taskList.filter((task) => task.status === 'doing');
+      },
+      done: function () {
+        return this.taskList.filter((task) => task.status === 'done');
+      },
+    }
+  };
+
 </script>
 
 
@@ -95,54 +87,42 @@
             <img class="img-profil" src="https://picsum.photos/seed/picsum/200/200" alt="">
             <h2>Pierre Richard</h2>
         </div>
-        <div class="mini-titre">
-        </div>
-        <ul class="table table-bordered mt-5">
-      <thead>
-        <li>
-          <th scope="col">Mes posts</th>
-          <!-- <th scope="col" style="width: 120px">Status</th>
-          <th scope="col" class="text-center">#</th>
-          <th scope="col" class="text-center">#</th> -->
+        
+        <label>
+      Qu'est-ce qu'on fait ?
+      <input :value="newTask" @input="setNewTask" type="text" name="task" />
+      <button @click="addTaskToList" type="button">Ajouter</button>
+    </label>    
+
+    <div class="columns">
+       <ul>
+        <li v-for="task in todos">
+          {{ task.text }}
+          <button @click="removeTask(task)" type="button">Supprimer</button>
         </li>
-      </thead>
-      <tbody>
-        <li v-for="(task, index) in tasks" :key="index">
-          <div class="firstLi">
-            <span :class="{ 'line-through': task.status === 'finished' }">
-              {{ task.name }}
-            </span>
-          </div>
-          <td>
-            <!-- <span
-              class="pointer noselect"
-              @click="changeStatus(index)"
-              :class="{
-                'text-danger': task.status === 'to-do',
-                'text-success': task.status === 'finished',
-                'text-warning': task.status === 'in-progress',
-              }"
-            >
-              {{ capitalizeFirstChar(task.status) }}
-            </span> -->
-          </td>
-          <td class="text-center">
-            <div @click="deleteTask(index)">
-              <span class="fa fa-trash pointer"></span>
-            </div>
-          </td>
-          <!-- <td class="text-center">
-            <div @click="editTask(index)">
-              <p class="fa fa-pen pointer"></p>
-            </div>
-          </td> -->
+      </ul> 
+      <ul>
+        <li class="task-li" v-for="task in doing">
+          {{ task.text }}
+          <button @click="changeStatus(task, 'done')" type="button">Terminer</button>
         </li>
-      </tbody>
-    </ul>
+      </ul> 
+      <ul>
+        <li  v-for="task in done">
+          {{ task.text }}
+          <button @click="removeTask(task)" type="button">Supprimer</button>
+        </li>
+      </ul>
+    </div>
     </div>
 </template>
 
 <style>
+*{
+    font-family: sans-serif;
+    margin: 0;
+}
+
 .main-profil{
     margin: auto;
     justify-content: center;
@@ -150,14 +130,14 @@
     width: 80%;
 }
 
-table{
-    margin: 0 160px;
-}
 .fa{
     font-size: 40px;
 }
 .text-center{
     padding: 20px;
+}
+.firstLi{
+    display: flex;
 }
 
 .photo-pseudo{
@@ -177,10 +157,6 @@ ul{
 }
 
 
-.mini-titre{
-    text-align: center;
-}
-
 
 
 
@@ -194,10 +170,28 @@ ul{
   -moz-user-select: none; /* Old versions of Firefox */
   -ms-user-select: none; /* Internet Explorer/Edge */
   user-select: none; /* Non-prefixed version, currently
-                                  supported by Chrome, Edge, Opera and Firefox */
+      supported by Chrome, Edge, Opera and Firefox */
 }
-.line-through {
-  text-decoration: line-through;
+
+
+
+
+.columns {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: auto;
+  grid-column-gap: 16px;
 }
+
+li{
+    list-style-type: none;
+    border: 1px solid rgb(37, 115, 225);
+    padding: 40px 300px;
+    margin: 5px;
+    border-radius: 5px;
+    
+}
+
 
 </style>
