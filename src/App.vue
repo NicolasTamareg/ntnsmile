@@ -12,6 +12,7 @@ import { RouterLink, RouterView } from "vue-router";
         <RouterLink to="/profil">Profile</RouterLink>
         <RouterLink to="/login">Connection</RouterLink>
         <RouterLink to="/edit">Parametre</RouterLink>
+        <button class="btn-deco">Deconnexion</button>
         </nav>
       </header>
       <RouterView />
@@ -43,4 +44,14 @@ nav{
   justify-content: space-evenly;;
 
   }
+  .btn-deco{
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #eb6c31;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+  }
+  
 </style>
