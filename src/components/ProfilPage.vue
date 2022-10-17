@@ -72,7 +72,7 @@ methods: {
       done: function () {
         return this.taskList.filter((task) => task.status === 'done');
       },
-    }
+    },
   };
 
 </script>
