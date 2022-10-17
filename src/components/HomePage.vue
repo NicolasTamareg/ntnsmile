@@ -1,5 +1,6 @@
 <script >
 import CompteurLike from './CompteurLike.vue';
+import LoginCreat from './LoginCreat.vue';
   export default {
     data() {
         return {

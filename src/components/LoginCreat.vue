@@ -37,6 +37,9 @@
         Token: {{ token }}
         </p>
         <p v-else-if="user.result === false" class="error">Connexion échouée</p>
+
+        <p v-if="user.resultInscrption === true" class="success">Inscription réussie</p>
+        <p v-else-if="user.resultInscrption === false" class="error">Inscription échouée</p>
     
        
         <button  @click="handleClick">Créer un compte</button>
@@ -45,13 +48,24 @@
             <form action="">
 
                 <div class="inputContent">
-                    <label for="pseudoInput">Pseudo :</label>
+                    <label for="firstnameInput">Prenom :</label>
                     <input 
                     type="text"
-                    id="pseudoInput"
-                    v-model="user.pseudo"
-                    :class="PseudoIsValid"
-                    placeholder="Entrer votre pseudo"
+                    id="firstnameInput"
+                    v-model="user.firstname"
+                    :class="FirstnameIsValid"
+                    placeholder="Entrer votre prénom"
+                    >
+                </div>
+
+                <div class="inputContent">
+                    <label for="lastnameInput">Nom :</label>
+                    <input 
+                    type="text"
+                    id="lastnameInput"
+                    v-model="user.lastname"
+                    :class="LastnameIsValid"
+                    placeholder="Entrer votre nom"
                     >
                 </div>
                 <p class="info">Max 8 caractères</p>
@@ -89,8 +103,10 @@
                     placeholder="Confirmer votre mot de passe"
                     >
                 </div>
-               <input type="submit" value="Valider" @click="addUser">
+               <input type="submit" value="Valider" >
             </form>
+
+           
 
         </div>
 
@@ -105,42 +121,43 @@ export default {
         userList: [],
         
         user:{
-            pseudo:"Thanatos",
+            firstname:"Thanh",
+            lastname:"Huynh",
             email: "test@test.com",
             password: "test",
             passwordVerirfy:"test",
             token: "",
             result: null,
+            resultInscrption: null,
+           
             
         },
 
         shouldDisplayForm: false,
         newUser:"",
-        reg: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/,
-        
     };
     
   },
   
 
   methods: {
-    addUser: function(){
-         // Si l'input est vide, on s'en va
-      if (this.newUser === "") {
-        return;
-      }
-      // Si la nouvelle tâche existe déjà dans taskList, on s'en va
-      // On crée un nouvel objet pour "transférer" this.newTask (string) vers newTask (dictionnaire)
-      const newUser = {
-        info: this.newUser
-      };
-      // On ajoute le nouvel objet dans la tasklist
-      this.userList.push(newUser);
-      console.log('userList :',userList)
-      // On reset this.newTask pour vider l'input
-      this.newUser = "";
+    // addUser: function(){
+    //      // Si l'input est vide, on s'en va
+    //   if (this.newUser === "") {
+    //     return;
+    //   }
+    //   // Si la nouvelle tâche existe déjà dans taskList, on s'en va
+    //   // On crée un nouvel objet pour "transférer" this.newTask (string) vers newTask (dictionnaire)
+    //   const newUser = {
+    //     info: this.newUser
+    //   };
+    //   // On ajoute le nouvel objet dans la tasklist
+    //   this.userList.push(newUser);
+    //   console.log('userList :',userList)
+    //   // On reset this.newTask pour vider l'input
+    //   this.newUser = "";
       
-    },
+    // },
     
      handleClick: function () {
         this.shouldDisplayForm = true;
@@ -151,6 +168,7 @@ export default {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+           Authorization: "bearer token",
         },
         body: JSON.stringify({
           email: this.user.email,
@@ -159,7 +177,7 @@ export default {
       };
 
       const response = await fetch(
-        "https://social-network-api.osc-fr1.scalingo.io/demo/login",
+        "https://social-network-api.osc-fr1.scalingo.io/ntnsmile/login",
         options
       );
 
@@ -183,26 +201,26 @@ export default {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          pseudo: this.user.pseudo,  
-          email: this.user.email,
-          password: this.user.password,
-
+            email: this.user.email,
+            password: this.user.password,
+            firstname: this.user.firstname,
+            lastname: this.user.lastname,
         }),
       };
 
       const response = await fetch(
-        "https://social-network-api.osc-fr1.scalingo.io/demo/login",
+        "https://social-network-api.osc-fr1.scalingo.io/ntnsmile/register",
         options
       );
 
       const data = await response.json();
 
-      this.user.result = data.success;
-      if (data.success === true) {
+      this.user.resultInscrption = data.successInscription;
+      if (data.successInscription === true) {
         this.token = data.token;
-
-        localStorage.setItem("token", data.token);
-        const token = localStorage.getItem("token");
+      
+      localStorage.setItem("token", data.token);
+      const token = localStorage.getItem("token");
        }
      },
     },
@@ -221,15 +239,23 @@ export default {
         
         return 'border-green';
       },
-      PseudoIsValid: function () {
-        if (!this.user.pseudo || !this.user.pseudo.length === 0) return '';
-        const isLengthOk = this.user.pseudo.length <= 8;
+      FirstnameIsValid: function () {
+        if (!this.user.firstname || !this.user.firstname.length === 0) return '';
+        const isLengthOk = this.user.firstname.length <= 8;
         if (!isLengthOk) return 'border-red';
   
         return 'border-green';
       },
-    //   EmailIsValid: function () {
-    //     (this.reg.test(this.user.email)) ? 'border-green' : 'border-red';
+      LastnameIsValid: function () {
+        if (!this.user.lastname || !this.user.lastname.length === 0) return '';
+        const isLengthOk = this.user.lastname.length <= 8;
+        if (!isLengthOk) return 'border-red';
+  
+        return 'border-green';
+      },
+    //   EmailIsValid: function (email) {
+    //     var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    //     return re.test(email), 'border-green';
     //   },
       
     },
@@ -307,10 +333,14 @@ button{
     
 }
 .success {
+  width: 70%;
   margin-top: 20px;
   padding: 10px;
   background-color: #4CAF50;
   color: white;
+  border: none;
+  border-radius: 5px;
+  outline: none;
 }
 
 .error {
@@ -318,6 +348,9 @@ button{
   padding: 10px;
   background-color: #b42f26;
   color: white;
+  border: none;
+  border-radius: 5px;
+  outline: none;
 }
 .border-red {
     border-color: red;
