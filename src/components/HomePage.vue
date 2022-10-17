@@ -5,11 +5,14 @@ export default {
   data() {
     return {
       newPost: "",
-      allPost: [],
-      numberLike: [],
-      affichePost:{
+      allPost: [
 
-        
+
+      ],
+      numberLike: [],
+      affichePost: {
+
+
       },
 
     };
@@ -44,7 +47,7 @@ export default {
 
         const data = await response.json();
         if (data.success) {
-          this.allPost.push(this.newPost);
+          await this.getPosts();
           this.newPost = "";
         } else {
           alert("Veuillez vous inscrire")
@@ -54,27 +57,30 @@ export default {
       }
     },
 
-
-  },
-  
-  components: { CompteurLike },
-
-  mounted: async function makeApromise() {
-    const options = {
+    getPosts: async function () {
+      const options = {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-           
         },
       };
       const serveurReponse = await fetch(
-          "https://social-network-api.osc-fr1.scalingo.io/ntmsmile/posts?page=0&limit=20",
-          options
-        );
+        "https://social-network-api.osc-fr1.scalingo.io/ntmsmile/posts?page=0&limit=20",
+        options
+      );
 
-        const postAffich = await serveurReponse.json();
-        console.log(postAffich);
-
+      const postAffich = await serveurReponse.json();
+      this.allPost = postAffich.posts;
+      // for (var i = 0; i < postAffich.posts.length; i++) {// permet de relier le i a l'index et .list.lenght pour la longueur du tableau
+      //   this.allPost.push(postAffich.posts[i])// ajoute toute les liste dans le tableau
+      // }
+      console.log(postAffich);
+      console.log(this.allPost);
+    }
+  },
+  components: { CompteurLike },
+  mounted: function () {
+    this.getPosts();
   }
 
 }
@@ -100,7 +106,7 @@ export default {
       <ul class="">
         <li v-for="(post,index) in allPost" class="liPost">
           <p>Nom de l'utisateur</p>
-          <p class="inputaffichepost">{{post}}</p>
+          <p class="inputaffichepost">{{post.title}}</p>
 
           <div class="modiflipost">
             <button class="buttonmodif" type="button">Commenter</button>
