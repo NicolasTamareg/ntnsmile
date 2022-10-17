@@ -5,6 +5,7 @@ export default {
         return {
             newTask: "",
             taskList: [],
+            userName: 'Nabil Nabil'
         };
 },
 methods: {
@@ -17,7 +18,7 @@ methods: {
         // Si l'input est vide, on s'en va
         if (!this.newTask) return;
         // Si la nouvelle tâche existe déjà dans taskList, on s'en va
-        if (this.taskList.some((task) => task.text != this.newTask  && task.text === this.newTask )) return;
+        if (this.taskList.some((task) => task.text != this.newTask && task.text === this.newTask )) return;
         // On crée un nouvel objet pour "transférer" this.newTask (string) vers newTask (dictionnaire)
         const newTask = {
           text: this.newTask,
@@ -85,7 +86,7 @@ methods: {
         </div>
         <div class="photo-pseudo">
             <img class="img-profil" src="https://picsum.photos/seed/picsum/200/200" alt="">
-            <h2>Pierre Richard</h2>
+            <h2 :value="userName"> {{userName}} </h2>
         </div>
         
         <label>
@@ -186,7 +187,7 @@ ul{
 
 li{
     list-style-type: none;
-    border: 1px solid rgb(37, 115, 225);
+    border: 2px solid rgb(37, 115, 225);
     padding: 40px 300px;
     margin: 5px;
     border-radius: 5px;
