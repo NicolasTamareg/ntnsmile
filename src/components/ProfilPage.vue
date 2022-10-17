@@ -62,6 +62,7 @@ methods: {
         });
       }
     },
+    
     // Les computed properties permettent de mettre à disposition des listes filtrées en se basant sur les éléments contenus dans this.taskList
     computed: {
       todos: function () {
