@@ -1,116 +1,119 @@
 <template>
     <div id="connectContainer">
-        <img src="src/assets/login-img.png" alt="">
-        <h1>Rejoignez le réseau NTN Smile</h1>
+      <img src="src/assets/login-img.png" alt="">
+      <h1>Rejoignez le réseau NTN Smile</h1>
        
-        <form action="" @submit.prevent="login">
+      <form action="" @submit.prevent="login">
 
-            <div class="inputContent">
-                <label for="emailInput">Email :</label>
-                <input
-                 type="email"
-                 id="emaiInput" 
-                 v-model="user.email" 
-                 placeholder="Entrer votre email"
-                 required
-                 >
-            </div>
+        <div class="inputContent">
+          <label for="emailInput">Email :</label>
+          <input
+            type="email"
+            id="emaiInput" 
+            v-model="user.email" 
+            placeholder="Entrer votre email"
+            required
+          >
+        </div>
 
-            <div class="inputContent">
-                <label for="passwordInput">Mot de passe :</label>
-                <input 
-                type="password" 
-                id="passwordInput" 
-                v-model="user.password" 
-                placeholder="Entrer votre mot de passe"
-                required
-                >
-            </div>
+        <div class="inputContent">
+          <label for="passwordInput">Mot de passe :</label>
+          <input 
+            type="password" 
+            id="passwordInput" 
+            v-model="user.password" 
+            placeholder="Entrer votre mot de passe"
+            required
+          >
+        </div>
 
+        <input type="submit" value="Se connecter">
 
-           <input type="submit" value="Se connecter">
-        </form>
+      </form>
 
-        <p v-if="user.result === true" class="success">
-        Connexion réussie
-        <br />
-        Token: {{ token }}
-        </p>
-        <p v-else-if="user.result === false" class="error">Connexion échouée</p>
+      <p v-if="user.result === true" class="success">
+      Connexion réussie
+      <br />
+      Token: {{ token }}
+      </p>
+      <p v-else-if="user.result === false" class="error">Connexion échouée</p>
 
-        <p v-if="user.resultInscrption === true" class="success">Inscription réussie</p>
-        <p v-else-if="user.resultInscrption === false" class="error">Inscription échouée</p>
-    
-       
-        <button  @click="handleClick">Créer un compte</button>
-       
-        <div id="modalContainer" v-if="shouldDisplayForm" @submit.prevent="register">
-            <form action="">
+        
+      <button  @click="handleClick">Créer un compte</button>
+        
+      <p v-if="user.resultForm === true" class="success">Inscription réussie</p>
+      <p v-else-if="user.resultForm === false" class="error">Inscription échouée</p>
+        
+      <div id="modalContainer" v-if="shouldDisplayForm" @submit.prevent="register">
+        <form action="">
 
-                <div class="inputContent">
-                    <label for="firstnameInput">Prenom :</label>
-                    <input 
-                    type="text"
-                    id="firstnameInput"
-                    v-model="user.firstname"
-                    :class="FirstnameIsValid"
-                    placeholder="Entrer votre prénom"
-                    >
-                </div>
+          <div class="inputContent">
+            <label for="firstnameInput">Prenom :</label>
+            <input 
+              type="text"
+              id="firstnameInput"
+              v-model="user.firstname"
+              :class="FirstnameIsValid"
+              placeholder="Entrer votre prénom"
+            >
+          </div>
+                  
+          <div class="inputContent">
+            <label for="lastnameInput">Nom :</label>
+            <input 
+              type="text"
+              id="lastnameInput"
+              v-model="user.lastname"
+              :class="LastnameIsValid"
+              placeholder="Entrer votre nom"
+            >
+          </div>
+          <p class="info">Max 8 caractères</p>
 
-                <div class="inputContent">
-                    <label for="lastnameInput">Nom :</label>
-                    <input 
-                    type="text"
-                    id="lastnameInput"
-                    v-model="user.lastname"
-                    :class="LastnameIsValid"
-                    placeholder="Entrer votre nom"
-                    >
-                </div>
-                <p class="info">Max 8 caractères</p>
-
-                <div class="inputContent">
-                    <label for="emailInput">Email :</label>
-                    <input
-                    type="email"
-                    id="emaiInput" 
-                    v-model="user.email"
+          <div class="inputContent">
+            <label for="emailInput">Email :</label>
+            <input
+            type="email"
+            id="emaiInput" 
+            v-model="user.email"
                     
-                    placeholder="Entrer votre email"
-                    >
-                </div>
+            placeholder="Entrer votre email"
+          >
+          </div>
 
-                <div class="inputContent">
-                    <label for="passwordInput">Mot de passe :</label>
-                    <input 
-                    type="password" 
-                    id="passwordInput" 
-                    v-model="user.password" 
-                    :class="MdpIsValid"
-                    placeholder="Entrer votre mot de passe"
-                    >
-                </div>
-                <p class="info">Max 4 caractères</p>
+          <div class="inputContent">
+            <label for="passwordInput">Mot de passe :</label>
+            <input 
+              type="password" 
+              id="passwordInput" 
+              v-model="user.password" 
+              :class="MdpIsValid"
+              placeholder="Entrer votre mot de passe"
+            >
+          </div>
+          <p class="info">Max 4 caractères</p>
+                
+          <div class="inputContent">
+            <label for="passwordVerify">Confirmer le mot de passe :</label>
+            <input 
+            type="password" 
+            id="passwordVerify" 
+            v-model="user.passwordVerirfy" 
+            :class="MdpVerifyValid"
+            placeholder="Confirmer votre mot de passe"
+            >
+          </div>
 
-                <div class="inputContent">
-                    <label for="passwordVerify">Confirmer le mot de passe :</label>
-                    <input 
-                    type="password" 
-                    id="passwordVerify" 
-                    v-model="user.passwordVerirfy" 
-                    :class="MdpVerifyValid"
-                    placeholder="Confirmer votre mot de passe"
-                    >
-                </div>
-               <input type="submit" value="Valider" >
-            </form>
+          <input type="submit" value="Valider">
 
+          </form>
+              
+              
            
 
         </div>
-
-    </div>
+        
+      </div>
 
 </template>
 
@@ -118,46 +121,27 @@
 export default {
   data() {
     return {
-        userList: [],
         
-        user:{
-            firstname:"Thanh",
-            lastname:"Huynh",
-            email: "test@test.com",
-            password: "test",
-            passwordVerirfy:"test",
-            token: "",
-            result: null,
-            resultInscrption: null,
+      user:{
+        firstname:"",
+        lastname:"",
+        email: "@test.com",
+        password: "",
+        passwordVerirfy:"",
+        token: "",
+        result: null,
+        resultForm: null,
            
-            
-        },
+      },
 
-        shouldDisplayForm: false,
-        newUser:"",
+      shouldDisplayForm: false,
+        
     };
     
   },
   
 
   methods: {
-    // addUser: function(){
-    //      // Si l'input est vide, on s'en va
-    //   if (this.newUser === "") {
-    //     return;
-    //   }
-    //   // Si la nouvelle tâche existe déjà dans taskList, on s'en va
-    //   // On crée un nouvel objet pour "transférer" this.newTask (string) vers newTask (dictionnaire)
-    //   const newUser = {
-    //     info: this.newUser
-    //   };
-    //   // On ajoute le nouvel objet dans la tasklist
-    //   this.userList.push(newUser);
-    //   console.log('userList :',userList)
-    //   // On reset this.newTask pour vider l'input
-    //   this.newUser = "";
-      
-    // },
     
      handleClick: function () {
         this.shouldDisplayForm = true;
@@ -177,7 +161,7 @@ export default {
       };
 
       const response = await fetch(
-        "https://social-network-api.osc-fr1.scalingo.io/ntnsmile/login",
+        "https://social-network-api.osc-fr1.scalingo.io/ntmsmile/login",
         options
       );
 
@@ -186,6 +170,7 @@ export default {
       this.user.result = data.success;
       if (data.success === true) {
         this.token = data.token;
+        
         // rediriger vers la page d'accueil ?
         // voici comment "persister" une valeur dans le disque dur
         localStorage.setItem("token", data.token);
@@ -209,19 +194,17 @@ export default {
       };
 
       const response = await fetch(
-        "https://social-network-api.osc-fr1.scalingo.io/ntnsmile/register",
+        "https://social-network-api.osc-fr1.scalingo.io/ntmsmile/register",
         options
       );
 
       const data = await response.json();
 
-      this.user.resultInscrption = data.successInscription;
-      if (data.successInscription === true) {
-        this.token = data.token;
-      
-      localStorage.setItem("token", data.token);
-      const token = localStorage.getItem("token");
+      this.user.resultForm = data.success;
+      if (data.success === true) {
+        
        }
+      this.shouldDisplayForm = false
      },
     },
 
@@ -253,6 +236,13 @@ export default {
   
         return 'border-green';
       },
+
+      formIsValid: function () {
+        if (this.user.firstname === 'border-green' && this.user.lastname === 'border-green' && this.user.password === 'border-green' && this.user.passwordVerirfy === 'border-green') {
+          return true;
+        }
+        return false;
+      },
     //   EmailIsValid: function (email) {
     //     var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     //     return re.test(email), 'border-green';
@@ -274,7 +264,7 @@ form {
   align-items: center;
   flex-direction: column;
   margin: 10px;
-  width: 50%;
+  width: 60%;
 }
 form input {
   width: 100%;
@@ -295,10 +285,11 @@ form input[type=submit] {
   cursor: pointer;
   &:hover{
     background-color: #45a049;
+    transition: 0.3s;
   }
 }
 label{
-    width: 160px;
+    width: 50%;
     display: flex;
     align-items: center;
     justify-content: end;
@@ -307,7 +298,7 @@ label{
 .inputContent{
     display: flex;
     flex-direction: row;
-    width: 80%;
+    width: 60%;
     justify-content: center;
 }
 
@@ -322,6 +313,7 @@ button{
   cursor: pointer;
   &:hover{
     background-color: rgb(82, 127, 199);
+    transition: 0.3s;
   }
   
 }
@@ -332,7 +324,7 @@ button{
     align-items: center;
     
 }
-.success {
+.success,.successForm {
   width: 70%;
   margin-top: 20px;
   padding: 10px;
@@ -343,7 +335,7 @@ button{
   outline: none;
 }
 
-.error {
+.error,.errorForm {
   margin-top: 20px;
   padding: 10px;
   background-color: #b42f26;
@@ -354,17 +346,17 @@ button{
 }
 .border-red {
     border-color: red;
-  }
+}
   .border-green {
     border-color: green;
-  }
+}
   .border-green, .border-red {
     border-width: 2px;
-  }
+}
   .info{
     font-size: small;
     margin: 0;
-  }
+}
 
 
 </style>
