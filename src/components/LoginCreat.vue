@@ -142,23 +142,6 @@ export default {
   
 
   methods: {
-    // addUser: function(){
-    //      // Si l'input est vide, on s'en va
-    //   if (this.newUser === "") {
-    //     return;
-    //   }
-    //   // Si la nouvelle tâche existe déjà dans taskList, on s'en va
-    //   // On crée un nouvel objet pour "transférer" this.newTask (string) vers newTask (dictionnaire)
-    //   const newUser = {
-    //     info: this.newUser
-    //   };
-    //   // On ajoute le nouvel objet dans la tasklist
-    //   this.userList.push(newUser);
-    //   console.log('userList :',userList)
-    //   // On reset this.newTask pour vider l'input
-    //   this.newUser = "";
-      
-    // },
     
      handleClick: function () {
         this.shouldDisplayForm = true;
@@ -178,7 +161,7 @@ export default {
       };
 
       const response = await fetch(
-        "https://social-network-api.osc-fr1.scalingo.io/ntnsmile/login",
+        "https://social-network-api.osc-fr1.scalingo.io/ntmsmile/login",
         options
       );
 
@@ -211,7 +194,7 @@ export default {
       };
 
       const response = await fetch(
-        "https://social-network-api.osc-fr1.scalingo.io/ntnsmile/register",
+        "https://social-network-api.osc-fr1.scalingo.io/ntmsmile/register",
         options
       );
 
@@ -363,17 +346,17 @@ button{
 }
 .border-red {
     border-color: red;
-  }
+}
   .border-green {
     border-color: green;
-  }
+}
   .border-green, .border-red {
     border-width: 2px;
-  }
+}
   .info{
     font-size: small;
     margin: 0;
-  }
+}
 
 
 </style>
