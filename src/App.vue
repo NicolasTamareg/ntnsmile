@@ -1,12 +1,9 @@
 <script setup>
 import { RouterLink, RouterView } from "vue-router";
-import ButtonDeco from "./components/ButtonDeco.vue"
-
-
+import ButtonDeco from "./components/ButtonDeco.vue";
 </script>
 
-<template >
-  
+<template>
   <section id="pageform">
     <header>
       <nav>
@@ -14,29 +11,28 @@ import ButtonDeco from "./components/ButtonDeco.vue"
         <RouterLink to="/profil" class="router">Profile</RouterLink>
         <RouterLink to="/login" class="router">Connection</RouterLink>
         <RouterLink to="/edit" class="router">Parametre</RouterLink>
-        <ButtonDeco/>
-        </nav>
-      </header>
-      <RouterView />
-  </section>
-  
-  <section>
-    <footer>
-      
-    </footer>
-
+        <ButtonDeco />
+      </nav>
+    </header>
+    <RouterView v-slot="{ Component, route }">
+      <Transition name="fade" mode="out-in">
+        <div :key="route.name">
+          <component :is="Component" />
+        </div>
+      </Transition>
+    </RouterView>
   </section>
 </template>
 
 <style scoped>
-*{
+* {
   box-sizing: border-box;
 }
-#pageform{
+#pageform {
   display: flex;
   width: 100%;
 }
-header{
+header {
   display: flex;
   justify-content: center;
   background-color: red;
@@ -44,10 +40,10 @@ header{
   width: 300px;
   height: 100%;
 }
-nav{
+nav {
   display: flex;
   width: 300px;
-  height:  90vh;
+  height: 90vh;
   position: fixed;
   padding: 0 20px 0 20px;
   flex-direction: column;
@@ -56,25 +52,38 @@ nav{
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  background: rgb(131,58,180);
-  background: linear-gradient(37deg, rgba(131,58,180,1) 0%, rgba(29,253,168,0.9920343137254902) 48%, rgba(252,176,69,1) 100%);
-  }
-  .router{
-    display: flex;
-    justify-content: center;
-    width: 40%;
-    background-color: #1DA1F2;
-    color: white;
-    text-decoration: none;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  .router:hover {
-    background-color: white;
-    color: #1DA1F2;
-    transition: 0.3s;
-  }
-  
-    
+  background: rgb(131, 58, 180);
+  background: linear-gradient(
+    37deg,
+    rgba(131, 58, 180, 1) 0%,
+    rgba(29, 253, 168, 0.9920343137254902) 48%,
+    rgba(252, 176, 69, 1) 100%
+  );
+}
+.router {
+  display: flex;
+  justify-content: center;
+  width: 40%;
+  background-color: #1da1f2;
+  color: white;
+  text-decoration: none;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+.router:hover {
+  background-color: white;
+  color: #1da1f2;
+  transition: 0.3s;
+}
+</style>
+<style>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
 </style>

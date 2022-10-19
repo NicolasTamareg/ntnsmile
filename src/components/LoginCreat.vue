@@ -174,9 +174,8 @@ export default {
         // rediriger vers la page d'accueil ?
         // voici comment "persister" une valeur dans le disque dur
         localStorage.setItem("token", data.token);
-        // voici comment lire une valeur stockée dans le disque dur
-        const token = localStorage.getItem("token");
-        // voici comment vider le stockage du disque dur
+        this.$router.push("/");
+       
        }
      },
      async register() {

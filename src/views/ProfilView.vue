@@ -4,9 +4,9 @@ import ProfilPage from "../components/ProfilPage.vue";
 </script>
 
 <template>
-
- <ProfilPage />
-
+    <main>
+        <ProfilPage />
+    </main>
 </template>
 
 
