@@ -1,5 +1,5 @@
 <script >
-import CompteurLike from './CompteurLike.vue';
+
 
 export default {
   data() {
@@ -9,11 +9,9 @@ export default {
 
 
       ],
-      numberLike: [],
-      affichePost: {
-
-
-      },
+      
+      
+      
 
     };
 
@@ -22,10 +20,11 @@ export default {
     // Récupère la valeur contenue dans l'input et l'assigne à newTask
     setNewPost: function (event) {
       this.newPost = event.target.value;
-      console.log(this.newPost);
+      
     },
     addToPost: async function () {
       console.log(this.allPost);
+     
       const token = localStorage.getItem("token");
       if (token) {
         const options = {
@@ -52,6 +51,7 @@ export default {
         } else {
           alert("Veuillez vous inscrire")
         }
+
         console.log(this.allPost);
 
       }
@@ -72,15 +72,58 @@ export default {
       const postAffich = await serveurReponse.json();
       this.allPost = postAffich.posts;
       // for (var i = 0; i < postAffich.posts.length; i++) {// permet de relier le i a l'index et .list.lenght pour la longueur du tableau
-      //   this.allPost.push(postAffich.posts[i])// ajoute toute les liste dans le tableau
+      // this.afficheLike.id=postAffich.posts[i]._id
       // }
-      console.log(postAffich);
-      console.log(this.allPost);
-    }
+      
+      console.log(this.allPost)
+      
+    },
+      
+    
+    getLikes: async function(reccupid){
+
+   //post like 
+ 
+  // for (var i = 0; i < this.allPost.length; i++) {// permet de relier le i a l'index et .list.lenght pour la longueur du tableau
+  //       // this.allPost.posts[i]._id// ajoute toute les liste dans le tableau
+  //     }
+  //     console.log("ttrt",this.allPost)
+      
+  //  console.log("pour le poste id",this.numberLike);
+   
+   const token = localStorage.getItem("token");
+
+   if(token){
+       const options = {
+         method: "POST",
+         headers: {
+         "Content-Type": "application/json",
+         "Authorization": "bearer " + token,
+       },
+       
+    body :JSON.stringify({
+           postId: `${reccupid}`,
+         }),
+         
+       };
+       const ReponseLike = await fetch(
+         "https://social-network-api.osc-fr1.scalingo.io/ntmsmile/post/like",
+         options
+       );
+       const likeAffiche = await ReponseLike.json();
+          console.log(likeAffiche)
+      }
+    },
+
+      // addLike: function(){
+      //   this.getLikes()
+      // }
+
   },
-  components: { CompteurLike },
+  
   mounted: function () {
     this.getPosts();
+    
   }
 
 }
@@ -97,7 +140,7 @@ export default {
       <label>
         Qu'est-ce qu'on fait?
       </label>
-      <input :value="newPost" @input="setNewPost" type="text" name="task" id="inputPost" placeholder="Quoi de neuf?" />
+      <input @keyup.enter="addToPost" :value="newPost" @input="setNewPost" type="text" name="task" id="inputPost" placeholder="Quoi de neuf?" />
       <button class="validpost" @click="addToPost" type="button">Poster</button>
 
     </div>
@@ -105,12 +148,15 @@ export default {
     <div class="affichePost">
       <ul class="">
         <li v-for="(post,index) in allPost" class="liPost">
-          <p>Nom de l'utisateur</p>
+          <p>Fait par :{{post.firstname}}</p>
           <p class="inputaffichepost">{{post.title}}</p>
 
           <div class="modiflipost">
             <button class="buttonmodif" type="button">Commenter</button>
-            <CompteurLike />
+            <div class="numberLike">
+               <p>{{post.likes.length}}</p><button @click="getLikes(post._id)" class="buttonjaimepost"><i class="fa-solid fa-heart"></i>
+              </button>
+              </div>
 
           </div>
         </li>
@@ -221,7 +267,32 @@ label {
 
 
 }
+.numberLike {
+  display: flex;
+}
 
+.buttonjaimepost {
+  border: none;
+  margin-top: 5px;
+  padding: 6px;
+  border-radius: 25px;
+  background-color: white;
+  cursor: pointer;
+
+  i {
+    border-radius: 30px;
+    background-color: #1DA1F2;
+    padding: 10px;
+    color: white;
+
+    &:hover {
+
+      background-color: white;
+      color: #1DA1F2;
+      transition: 0.3s;
+    }
+  }
+}
 .buttonjaimepost {
   border: none;
   margin-top: 5px;
