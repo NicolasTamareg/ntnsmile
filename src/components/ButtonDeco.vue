@@ -14,15 +14,15 @@ export default {
             localStorage.clear();
         },
     },
-    // computed : {
-    //     showBtnDeco : function () {
-    //         const token = localStorage.getItem("token");
-    //         if(token){
-    //             this.shouldDisplayBtn = true
-    //         }
-    //     }
+    computed : {
+        showBtnDeco : function () {
+            const token = localStorage.getItem("token");
+            if(token){
+                this.shouldDisplayBtn = true
+            }
+        }
 
-    // }
+    }
     
   
 }
