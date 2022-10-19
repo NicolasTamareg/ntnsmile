@@ -2,28 +2,24 @@
 
 export default {
     data () {
-        return{
-            shouldDisplayBtn: true,
-
+        const token = localStorage.getItem("token");
+        
+        return {
+            shouldDisplayBtn: !!token,
         }
-
     },
-    
+    mounted: function () {
+        this.$router.afterEach(() => {
+            const token = localStorage.getItem("token");
+            this.shouldDisplayBtn = !!token;
+        });
+    },
     methods : {
         btnDeco: function () {
+            this.shouldDisplayBtn = false;
             localStorage.clear();
         },
-    },
-    computed : {
-        showBtnDeco : function () {
-            const token = localStorage.getItem("token");
-            if(token){
-                this.shouldDisplayBtn = true
-            }
-        }
-
-    }
-    
+    },  
   
 }
 </script>

@@ -1,5 +1,5 @@
-<script >
-import CompteurLike from './CompteurLike.vue';
+<script>
+import CompteurLike from "./CompteurLike.vue";
 
 export default {
   data() {
@@ -7,13 +7,8 @@ export default {
       newPost: "",
       allPost: [],
       numberLike: [],
-      affichePost:{
-
-        
-      },
-
+      affichePost: {},
     };
-
   },
   methods: {
     // Récupère la valeur contenue dans l'input et l'assigne à newTask
@@ -29,7 +24,7 @@ export default {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "Authorization": "bearer " + token,
+            Authorization: "bearer " + token,
           },
           body: JSON.stringify({
             title: this.newPost,
@@ -47,39 +42,31 @@ export default {
           this.allPost.push(this.newPost);
           this.newPost = "";
         } else {
-          alert("Veuillez vous inscrire")
+          alert("Veuillez vous inscrire");
         }
         console.log(this.allPost);
-
       }
     },
-
-
   },
-  
+
   components: { CompteurLike },
 
   mounted: async function makeApromise() {
     const options = {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-           
-        },
-      };
-      const serveurReponse = await fetch(
-          "https://social-network-api.osc-fr1.scalingo.io/ntmsmile/posts?page=0&limit=20",
-          options
-        );
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    const serveurReponse = await fetch(
+      "https://social-network-api.osc-fr1.scalingo.io/ntmsmile/posts?page=0&limit=20",
+      options
+    );
 
-        const postAffich = await serveurReponse.json();
-        console.log(postAffich);
-
-  }
-
-}
-
-
+    const postAffich = await serveurReponse.json();
+    console.log(postAffich);
+  },
+};
 </script>
 
 <template>
@@ -87,38 +74,32 @@ export default {
     <h1>NTNsmile</h1>
 
     <div class="newsposte">
-
-      <label>
-        Qu'est-ce qu'on fait?
-      </label>
-      <input :value="newPost" @input="setNewPost" type="text" name="task" id="inputPost" placeholder="Quoi de neuf?" />
+      <label> Qu'est-ce qu'on fait? </label>
+      <input
+        :value="newPost"
+        @input="setNewPost"
+        type="text"
+        name="task"
+        id="inputPost"
+        placeholder="Quoi de neuf?"
+      />
       <button class="validpost" @click="addToPost" type="button">Poster</button>
-
     </div>
 
     <div class="affichePost">
       <ul class="">
-        <li v-for="(post,index) in allPost" class="liPost">
+        <li v-for="(post, index) in allPost" class="liPost">
           <p>Nom de l'utisateur</p>
-          <p class="inputaffichepost">{{post}}</p>
+          <p class="inputaffichepost">{{ post }}</p>
 
           <div class="modiflipost">
             <button class="buttonmodif" type="button">Commenter</button>
             <CompteurLike />
-
           </div>
         </li>
       </ul>
-
-
     </div>
   </div>
-
-
-
-
-
-
 </template>
 
 <style scoped lang="scss">
@@ -132,19 +113,14 @@ label {
   text-align: center;
 }
 
-
 .modiflipost {
   margin-top: -13px;
-
-
-
 }
 
 .iconposte {
   display: flex;
   justify-content: center;
   border: none;
-
 }
 
 #inputPost {
@@ -154,7 +130,6 @@ label {
   resize: none;
   background-color: rgb(232, 237, 236);
   padding-bottom: 40px;
-
 }
 
 .validpost {
@@ -166,16 +141,14 @@ label {
   margin-left: 300px;
   cursor: pointer;
   margin-top: 10px;
-  background-color: #1DA1F2;
+  background-color: #1da1f2;
   color: white;
 
   &:hover {
-
     background-color: white;
-    color: #1DA1F2;
+    color: #1da1f2;
     transition: 0.3s;
   }
-
 }
 
 .liPost {
@@ -198,22 +171,17 @@ label {
     text-align: center;
     cursor: pointer;
     margin-top: 10px;
-    background-color: #1DA1F2;
+    background-color: #1da1f2;
     color: white;
     padding: 10px;
     border-radius: 17px;
 
     &:hover {
-
       background-color: white;
-      color: #1DA1F2;
+      color: #1da1f2;
       transition: 0.3s;
     }
-
   }
-
-
-
 }
 
 .buttonjaimepost {
@@ -226,14 +194,13 @@ label {
 
   i {
     border-radius: 30px;
-    background-color: #1DA1F2;
+    background-color: #1da1f2;
     padding: 10px;
     color: white;
 
     &:hover {
-
       background-color: white;
-      color: #1DA1F2;
+      color: #1da1f2;
       transition: 0.3s;
     }
   }
@@ -250,6 +217,5 @@ label {
   textarea {
     outline: none;
   }
-
 }
 </style>
