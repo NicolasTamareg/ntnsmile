@@ -85,7 +85,7 @@ export default {
     <div class="photo-pseudo">
       <img
         class="img-profil"
-        src="https://picsum.photos/seed/picsum/200/200"
+        src="https://images.pexels.com/photos/4126743/pexels-photo-4126743.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
         alt=""
       />
       <h2>{{ userName }}</h2>
@@ -158,6 +158,8 @@ ul {
   display: flex;
   flex-direction: column;
   border-radius: 50%;
+  width: 200px;
+  height: 200px;
 }
 
 .pointer {
