@@ -5,19 +5,29 @@ export default {
   data() {
     return {
       newPost: "",
+      newComment:"",
       allPost: [
 
 
       ],
       
       
-      
+      shouldDisplayComm: false,
 
     };
 
+    
+
   },
   methods: {
-    // Récupère la valeur contenue dans l'input et l'assigne à newTask
+    //affiche la div formulaire
+    afficheComm:function(){
+      this.shouldDisplayComm=true;
+    },
+    setNewComm:function(event){
+      this.newComment=event.target.value
+    },
+    // Récupère la valeur contenue dans l'input et l'assigne à newPost
     setNewPost: function (event) {
       this.newPost = event.target.value;
       
@@ -53,6 +63,41 @@ export default {
         }
 
         console.log(this.allPost);
+
+      }
+    },
+
+    addToComm:async function (reccupid) {
+      const token = localStorage.getItem("token");
+      if (token) {
+        const options = {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "bearer " + token,
+          },
+          body: JSON.stringify({
+            postId: `${reccupid}`,
+            content: this.newComment,
+          }),
+        };
+
+        const response = await fetch(
+          "https://social-network-api.osc-fr1.scalingo.io/ntmsmile/post/comment",
+          options
+        );
+
+        const data = await response.json();
+        console.log("ladata",data)
+        if (data.success) {
+          await this.getPosts();
+          this.newComment = "";
+          this.shouldDisplayComm=false
+        } else {
+          alert("Veuillez vous inscrire")
+        }
+
+        
 
       }
     },
@@ -101,7 +146,7 @@ export default {
          "Authorization": "bearer " + token,
        },
        
-    body :JSON.stringify({
+       body: JSON.stringify({
            postId: `${reccupid}`,
          }),
          
@@ -112,20 +157,16 @@ export default {
        );
        const likeAffiche = await ReponseLike.json();
           console.log(likeAffiche)
+          if (likeAffiche.success) {
+                await this.getPosts();
+               
+              } else {
+               
+              }
       }
-      if (likeAffiche.success) {
-            await this.getPosts();
-           
-          } else {
-           
-          }
     },
 
         
-      // addLike: function(){
-      //   this.getLikes()
-      // }
-
   },
   
   mounted: function () {
@@ -159,15 +200,27 @@ export default {
           <p class="inputaffichepost">{{post.title}}</p>
 
           <div class="modiflipost">
-            <button class="buttonmodif" type="button">Commenter</button>
+           
             <div class="numberLike">
                <p>{{post.likes.length}}</p><button @click="getLikes(post._id)" class="buttonjaimepost"><i class="fa-solid fa-heart"></i>
-              </button>
+                </button>
               </div>
 
-          </div>
+              <button class="buttonmodif" @click="afficheComm"  type="button">Commenter</button>
+              
+            </div>
+            <div class="ajoutcomment" v-if="shouldDisplayComm">
+              <input @input="setNewComm" :value="newComment" type="text" name="" id="inputcommentaire" placeholder="Ajouter un commentaire">
+              <button @click="addToComm(post._id)"  class="buttonajoutcom" ><i class="fa-solid fa-envelope"></i></button>
+            </div>
+            <div v-for="(comment) in post.comments" class="affichecomment">
+              <p class="namepost">Commentaire ajouter par : <p class="nameuser">{{comment.firstname}}</p></p>
+              <p class="inputaffichepost">{{comment.content}}</p>
+
+            </div>
         </li>
       </ul>
+      
 
 
     </div>
@@ -194,7 +247,7 @@ label {
 
 .modiflipost {
   margin-top: -13px;
-
+display: flex;
 
 
 }
@@ -245,8 +298,9 @@ label {
   border-radius: 20px;
 
   .inputaffichepost {
-    background: #d4d0d0;
+    background: #F1F0EF;
     padding: 30px;
+
     display: flex;
     font-size: smaller;
   }
@@ -313,7 +367,7 @@ label {
     background-color: #1DA1F2;
     padding: 10px;
     color: white;
-
+  
     &:hover {
 
       background-color: white;
@@ -322,7 +376,58 @@ label {
     }
   }
 }
+.ajoutcomment{
+  display: flex;
+  
+  .buttonajoutcom{
+    border: none;
+  margin-top: 5px;
+  padding: 6px;
+  border-radius: 25px;
+  background-color: white;
+  cursor: pointer;
 
+  i {
+    border-radius: 30px;
+    background-color: #1DA1F2;
+    padding: 10px;
+    color: white;
+  
+    &:hover {
+
+      background-color: white;
+      color: #1DA1F2;
+      transition: 0.3s;
+    }
+  }
+
+  }
+}
+
+.affichecomment{
+  border: 0.5px solid black;
+    border-radius: 10px;
+    margin-top: 15px;
+}
+
+.namepost{
+  display: flex;
+    align-items: center;
+}
+.nameuser{
+  font-style: italic;
+}
+
+#inputcommentaire{
+  width:90%;
+  margin-top: 5px;
+  margin-left: 7px;
+ 
+  outline: none;
+  border: 1px solid  #1DA1F2;
+  resize: none;
+  border-radius: 5px;
+}
 .newsposte {
   display: flex;
   flex-direction: column;
