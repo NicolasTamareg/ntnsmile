@@ -11,8 +11,11 @@ export default {
 
       ],
 
+      profile:{
 
-      shouldDisplayComm: false,
+      },
+
+      shouldDisplayComm: true,
 
     };
 
@@ -21,7 +24,29 @@ export default {
   },
   methods: {
     //affiche la div formulaire
-    afficheComm: function () {
+
+    async getUserProfile(){
+      let tokens= localStorage.getItem("token");
+      const options={
+        method:"GET",
+        headers:{
+          "Content-Type": "application/json",
+            Authorization: `bearer ${tokens}`,
+        },
+      };
+
+      const reponse=await fetch(
+        "https://social-network-api.osc-fr1.scalingo.io/ntmsmile/user",
+        options
+      );
+      const data= await reponse.json();
+      this.profile=data
+      console.log(data)
+
+
+    },
+
+    afficheComm: function (reccupid) {
       this.shouldDisplayComm = true;
     },
     setNewComm: function (event) {
@@ -168,8 +193,9 @@ export default {
 
   },
 
-  mounted: function () {
+  mounted:async function () {
     this.getPosts();
+    await this.getUserProfile();
 
   }
 };
@@ -177,12 +203,15 @@ export default {
 
 <template>
   <div class="formatpage">
-    <h1>NTNsmile</h1>
+    <div class="entetedepage">
+      <img src="../assets/50472272840e49d3934e9094dbca76fd.png" alt="">
+      <h1>NTNsmile</h1>
+    </div>
 
     <div class="newsposte">
 
-      <label>
-        Qu'est-ce qu'on fait?
+      <label class="labelname">
+        <p>Salut  !     {{profile.firstname}} {{profile.lastname}}</p>     
       </label>
       <input @keyup.enter="addToPost" :value="newPost" @input="setNewPost" type="text" name="task" id="inputPost"
         placeholder="Quoi de neuf?" />
@@ -192,7 +221,7 @@ export default {
     <div class="affichePost">
       <ul class="">
         <li v-for="(post,index) in allPost" class="liPost">
-          <p>Fait par :{{post.firstname}}</p>
+          <p class="nameuser" >Fait par :{{post.firstname}}</p>
           <p class="inputaffichepost">{{post.title}}</p>
 
           <div class="modiflipost">
@@ -203,7 +232,7 @@ export default {
               </button>
             </div>
 
-            <button class="buttonmodif" @click="afficheComm" type="button">Commenter</button>
+            <button class="buttonmodif" @click="afficheComm(post._id)" type="button">Commenter</button>
 
           </div>
           <div class="ajoutcomment" v-if="shouldDisplayComm">
@@ -228,14 +257,40 @@ export default {
 </template>
 
 <style scoped lang="scss">
+
+.entetedepage{
+  width: 700px;
+  height: 150px;
+  margin-bottom:20px;
+    background: #1da1f2;
+    display: flex;
+    border-radius: 25px;
+    
+      img{
+        margin-top: 10px;
+        height: 120px;
+        border-radius: 50%;
+        transform: translate(10%);
+     }
+     h1{
+      padding-left: 50px;
+      color: white;
+     }
+    
+}
 .formatpage {
-  margin: 20px 20px 10px 20px;
+  margin-left: 60%;
 }
 
 label {
+  display: flex;
+  align-items: center;
   border-bottom: 1px solid black;
   padding-bottom: 10px;
   text-align: center;
+  p{
+    font-style: italic;
+  }
 }
 
 .modiflipost {
@@ -364,6 +419,7 @@ label {
 
 .ajoutcomment {
   display: flex;
+  margin-bottom: 10px;
 
   .buttonajoutcom {
     border: none;
@@ -391,6 +447,9 @@ label {
 }
 
 .affichecomment {
+  margin-left: 20%;
+  margin-bottom:10px;
+    width: 60%;
   border: 0.5px solid black;
   border-radius: 10px;
   margin-top: 15px;
@@ -399,6 +458,8 @@ label {
 .namepost {
   display: flex;
   align-items: center;
+  justify-content: center;
+  
 }
 
 .nameuser {
@@ -419,7 +480,7 @@ label {
 .newsposte {
   display: flex;
   flex-direction: column;
-  height: 150px;
+  height: 180px;
   width: 700px;
   border-radius: 5px;
   border: 0.5px solid grey;

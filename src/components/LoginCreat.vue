@@ -254,6 +254,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
+
+
 img{
     height: 250px;
     width: 60%;
@@ -303,7 +305,7 @@ label{
 
 button{
   width: 50%;
-  background-color: rgb(101, 157, 247);
+  background-color: #1da1f2;
   color: white;
   padding: 14px 20px;
   margin: 8px 0;
@@ -311,10 +313,16 @@ button{
   border-radius: 4px;
   cursor: pointer;
   &:hover{
-    background-color: rgb(82, 127, 199);
+    background-color: white;
+    border: 1px solid #1da1f2;
+    color: #1da1f2;
     transition: 0.3s;
   }
   
+}
+
+#connectContainer{
+  padding-left: 30%;
 }
 #connectContainer,#modalContainer{
     width: 1000px;

@@ -162,6 +162,7 @@ export default {
 
 <style scoped>
 .editProfil {
+  padding-left: 30%;
   display: flex;
   justify-content: center;
   flex-direction: column;

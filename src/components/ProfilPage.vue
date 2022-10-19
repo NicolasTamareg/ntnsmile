@@ -121,14 +121,14 @@ export default {
   </div>
 </template>
 
-<style>
+<style scoped>
 * {
   font-family: sans-serif;
   margin: 0;
 }
 
 .main-profil {
-  margin: auto;
+  padding-left: 40%;
   justify-content: center;
   height: 100%;
   width: 80%;
@@ -162,15 +162,6 @@ ul {
 
 .pointer {
   cursor: pointer;
-}
-.noselect {
-  -webkit-touch-callout: none; /* iOS Safari */
-  -webkit-user-select: none; /* Safari */
-  -khtml-user-select: none; /* Konqueror HTML */
-  -moz-user-select: none; /* Old versions of Firefox */
-  -ms-user-select: none; /* Internet Explorer/Edge */
-  user-select: none; /* Non-prefixed version, currently
-      supported by Chrome, Edge, Opera and Firefox */
 }
 
 .columns {

@@ -6,6 +6,7 @@ import ButtonDeco from "./components/ButtonDeco.vue";
 <template>
   <section id="pageform">
     <header>
+      <img src="../src/assets/50472272840e49d3934e9094dbca76fd.png" alt="">
       <nav>
         <RouterLink to="/" class="router">Home</RouterLink>
         <RouterLink to="/profil" class="router">Profile</RouterLink>
@@ -24,7 +25,7 @@ import ButtonDeco from "./components/ButtonDeco.vue";
   </section>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 * {
   box-sizing: border-box;
 }
@@ -33,32 +34,27 @@ import ButtonDeco from "./components/ButtonDeco.vue";
   width: 100%;
 }
 header {
-  display: flex;
-  justify-content: center;
-  background-color: red;
-  margin: 10px;
-  width: 300px;
-  height: 100%;
+  border-radius: 10px;
+  width: 20%;
+    height: 780px;
+    position: fixed;
+    background: #1da1f2;
+    img{
+      border-radius: 50%;
+      transform: translate(21%,2%);
+     
+    }
 }
 nav {
-  display: flex;
-  width: 300px;
-  height: 90vh;
-  position: fixed;
-  padding: 0 20px 0 20px;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-evenly;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  background: rgb(131, 58, 180);
-  background: linear-gradient(
-    37deg,
-    rgba(131, 58, 180, 1) 0%,
-    rgba(29, 253, 168, 0.9920343137254902) 48%,
-    rgba(252, 176, 69, 1) 100%
-  );
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+
+   a {
+    margin: 20px 0px 20px 0px;
+   }
 }
 .router {
   display: flex;
