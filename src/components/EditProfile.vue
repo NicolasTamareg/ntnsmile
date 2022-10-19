@@ -5,7 +5,7 @@
       <div>
         <img
           class="img-profil"
-          src="https://picsum.photos/seed/picsum/200/200"
+          src="https://images.pexels.com/photos/4126743/pexels-photo-4126743.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
           alt=""
         />
       </div>
@@ -182,6 +182,8 @@ export default {
 img {
   margin: 20px;
   border-radius: 50%;
+  width: 200px;
+  height: 200px;
 }
 
 form {
