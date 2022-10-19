@@ -89,14 +89,14 @@ export default {
     <div class="fond-ecran">
       <img
         class="main-image"
-        src="https://www.coursinfo.fr/wp-content/uploads/2016/04/facebook-logo.jpg"
+        src="src/assets/MainImage.png"
         alt=""
       />
     </div>
     <div class="photo-pseudo">
       <img
         class="img-profil"
-        src="https://picsum.photos/seed/picsum/200/200"
+        src="src/assets/ProfileImage.jpg"
         alt=""
       />
       
@@ -129,7 +129,7 @@ export default {
 }
 
 .main-profil {
-  margin: auto;
+  padding-left: 30%;
   justify-content: center;
   height: 100%;
   width: 80%;
@@ -166,15 +166,6 @@ ul {
 .pointer {
   cursor: pointer;
 }
-.noselect {
-  -webkit-touch-callout: none; /* iOS Safari */
-  -webkit-user-select: none; /* Safari */
-  -khtml-user-select: none; /* Konqueror HTML */
-  -moz-user-select: none; /* Old versions of Firefox */
-  -ms-user-select: none; /* Internet Explorer/Edge */
-  user-select: none; /* Non-prefixed version, currently
-      supported by Chrome, Edge, Opera and Firefox */
-}
 
 .columns {
   width: 100%;
@@ -186,7 +177,7 @@ ul {
 
 li {
   list-style-type: none;
-  border: 4px solid rgb(37, 115, 225);
+  border: 2px solid rgb(37, 115, 225);
   padding: 40px 300px;
   margin: 5px;
   border-radius: 5px;

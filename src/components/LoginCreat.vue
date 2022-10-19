@@ -125,7 +125,7 @@ export default {
       user:{
         firstname:"",
         lastname:"",
-        email: "@test.com",
+        email: "",
         password: "",
         passwordVerirfy:"",
         token: "",
@@ -325,10 +325,10 @@ button{
   padding-left: 30%;
 }
 #connectContainer,#modalContainer{
-    width: 1000px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 1000px;
     
 }
 .success,.successForm {
