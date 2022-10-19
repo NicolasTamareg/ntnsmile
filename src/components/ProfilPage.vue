@@ -122,7 +122,7 @@ export default {
   </div>
 </template>
 
-<style>
+<style scoped>
 * {
   font-family: sans-serif;
   margin: 0;
@@ -159,6 +159,8 @@ ul {
   display: flex;
   flex-direction: column;
   border-radius: 50%;
+  width: 200px;
+  height: 200px;
 }
 
 .pointer {
