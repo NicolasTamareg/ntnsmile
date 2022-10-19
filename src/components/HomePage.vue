@@ -113,8 +113,15 @@ export default {
        const likeAffiche = await ReponseLike.json();
           console.log(likeAffiche)
       }
+      if (likeAffiche.success) {
+            await this.getPosts();
+           
+          } else {
+           
+          }
     },
 
+        
       // addLike: function(){
       //   this.getLikes()
       // }
