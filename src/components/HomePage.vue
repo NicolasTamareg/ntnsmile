@@ -275,6 +275,7 @@ export default {
      h1{
       padding-left: 50px;
       color: white;
+      font-size: 3em;
      }
     
 }
