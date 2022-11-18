@@ -8,9 +8,9 @@ import ButtonDeco from "./components/ButtonDeco.vue";
     <header>
       <img src="../src/assets/50472272840e49d3934e9094dbca76fd.png" alt="">
       <nav>
-        <RouterLink to="/" class="router">Home</RouterLink>
+        <RouterLink to="/" class="router">Accueil</RouterLink>
         <RouterLink to="/profil" class="router">Profile</RouterLink>
-        <RouterLink to="/login" class="router">Connection</RouterLink>
+        <RouterLink to="/login" class="router">Connexion</RouterLink>
         <RouterLink to="/edit" class="router">Parametre</RouterLink>
         <ButtonDeco />
       </nav>
@@ -72,8 +72,7 @@ nav {
   color: #1da1f2;
   transition: 0.3s;
 }
-</style>
-<style>
+
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.5s ease;
@@ -83,3 +82,4 @@ nav {
   opacity: 0;
 }
 </style>
+

@@ -1,7 +1,11 @@
 <template>
     <div id="connectContainer">
-      <img src="src/assets/login-img.png" alt="">
-      <h1>Rejoignez le réseau NTN Smile</h1>
+      <div class="imgtitle">
+        
+        <h1>Rejoignez le réseau NTN Smile</h1>
+        <img src="../assets/50472272840e49d3934e9094dbca76fd.png" alt="">
+
+      </div>
        
       <form action="" @submit.prevent="login">
 
@@ -125,7 +129,7 @@ export default {
       user:{
         firstname:"",
         lastname:"",
-        email: "@test.com",
+        email: "",
         password: "",
         passwordVerirfy:"",
         token: "",
@@ -255,11 +259,28 @@ export default {
 
 <style scoped lang="scss">
 
-
-img{
-    height: 250px;
-    width: 60%;
+.imgtitle{
+  display: flex;
+  justify-content: center;
+  background-image: url("src/assets/BackgroundImg2.jpg");
+  background-size: cover;
+  height: 250px;
+  width: 90%;
 }
+h1{
+  display: flex;
+  align-items:center;
+  font-size: xx-large;
+  color: #1da1f2;
+}
+img{
+  margin-top: 60px;
+  margin-left: 20px;
+  height: 120px;
+  border-radius: 50%;
+  transform: translate(10%);
+}
+
 form {
   display: flex;
   align-items: center;
@@ -325,10 +346,10 @@ button{
   padding-left: 30%;
 }
 #connectContainer,#modalContainer{
-    width: 1000px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 1000px;
     
 }
 .success,.successForm {

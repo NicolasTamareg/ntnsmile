@@ -5,10 +5,11 @@
       <div>
         <img
           class="img-profil"
-          src="https://images.pexels.com/photos/4126743/pexels-photo-4126743.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+          src="src/assets/ProfileImage.jpg"
           alt=""
         />
       </div>
+
       <div class="detail">
         <h2>{{ userList.firstname }} {{ userList.lastname }}</h2>
         <h3>{{ userList.email }}</h3>
@@ -17,7 +18,9 @@
       </div>
     </div>
 
-    <div class="profile" @submit.prevent="modifyProfile">
+    <button  @click="handleClick">Modifier le profile</button>
+    
+    <div class="profile" v-if="shouldDisplayForm" @submit.prevent="modifyProfile">
       <form action="">
         <div class="inputContent">
           <label for="inputFirstname">Prenom :</label>
@@ -83,6 +86,7 @@ export default {
   data() {
     return {
       userList: {},
+      shouldDisplayForm: false,
     };
   },
   mounted: function () {
@@ -90,6 +94,11 @@ export default {
   },
 
   methods: {
+
+  handleClick: function () {
+      this.shouldDisplayForm = true;
+    },
+
     async userProfile() {
       let tokens = localStorage.getItem("token");
       console.log(tokens);
@@ -136,6 +145,8 @@ export default {
 
       const data = await response.json();
       console.log("data :", data);
+
+      this.shouldDisplayForm = false
     },
   },
 
@@ -160,7 +171,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .editProfil {
   padding-left: 30%;
   display: flex;
@@ -212,11 +223,12 @@ form input[type="submit"] {
   border: none;
   border-radius: 4px;
   cursor: pointer;
-}
+  &:hover{
+    background-color: white;
+    color: #4caf50;
+    transition: 0.3s;
 
-form input[type="submit"]:hover {
-  background-color: #45a049;
-  transition: 0.3s;
+  }
 }
 
 label {
@@ -245,5 +257,22 @@ label {
 .border-green,
 .border-red {
   border-width: 2px;
+}
+button{
+  width: 50%;
+  background-color: #1da1f2;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  &:hover{
+    background-color: white;
+    border: 1px solid #1da1f2;
+    color: #1da1f2;
+    transition: 0.3s;
+  }
+  
 }
 </style>
